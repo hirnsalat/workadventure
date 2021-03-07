@@ -38,26 +38,34 @@ export class Player extends Character implements CurrentGamerInterface {
         const activeEvents = this.userInputManager.getEventListForGameTick();
         const speedMultiplier = activeEvents.get(UserInputEvent.SpeedUp) ? 25 : 9;
         const moveAmount = speedMultiplier * 20;
+        const moveAmountDiagonal = speedMultiplier * 14;
 
         let x = 0;
         let y = 0;
         if (activeEvents.get(UserInputEvent.MoveUp)) {
-            y = - moveAmount;
+            y = -1;
             direction = PlayerAnimationNames.WalkUp;
             moving = true;
         } else if (activeEvents.get(UserInputEvent.MoveDown)) {
-            y = moveAmount;
+            y = 1;
             direction = PlayerAnimationNames.WalkDown;
             moving = true;
         }
         if (activeEvents.get(UserInputEvent.MoveLeft)) {
-            x = -moveAmount;
+            x = -1;
             direction = PlayerAnimationNames.WalkLeft;
             moving = true;
         } else if (activeEvents.get(UserInputEvent.MoveRight)) {
-            x = moveAmount;
+            x = 1;
             direction = PlayerAnimationNames.WalkRight;
             moving = true;
+        }
+        if (x !== 0 && y !== 0) {
+            x = x * moveAmountDiagonal;
+            y = y * moveAmountDiagonal;
+        } else {
+            x = x * moveAmount;
+            y = y * moveAmount;
         }
         if (x !== 0 || y !== 0) {
             this.move(x, y);
