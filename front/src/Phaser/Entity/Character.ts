@@ -83,7 +83,8 @@ export abstract class Character extends Container {
                     key: d.key,
                     frames: this.scene.anims.generateFrameNumbers(d.frameModel, {start: d.frameStart, end: d.frameEnd}),
                     frameRate: d.frameRate,
-                    repeat: d.repeat
+                    repeat: d.repeat,
+                    yoyo: true
                 });
             })
             // Needed, otherwise, animations are not handled correctly.
@@ -94,6 +95,7 @@ export abstract class Character extends Container {
         }
     }
 
+    // for chars with more frames change here
     private getPlayerAnimations(name: string): AnimationData[] {
         return [{
             key: `${name}-${PlayerAnimationNames.WalkDown}`,

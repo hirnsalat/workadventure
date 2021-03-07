@@ -10,6 +10,7 @@ export interface BodyResourceDescriptionInterface {
 }
 
 export const PLAYER_RESOURCES: BodyResourceDescriptionListInterface = {
+    "cat1": {name: "cat1", img: "resources/characters/pipoya/Cat 01-1.png"},
     "male1": {name: "male1", img: "resources/characters/pipoya/Male 01-1.png"},
     "male2": {name: "male2", img: "resources/characters/pipoya/Male 02-2.png"},
     "male3": {name: "male3", img: "resources/characters/pipoya/Male 03-4.png"},
