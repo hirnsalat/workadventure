@@ -759,7 +759,7 @@ export class GameScene extends ResizableScene implements CenterListener {
     private initPositionFromLayerName(layerName: string) {
         for (const layer of this.mapFile.layers) {
             if (layerName === layer.name && layer.type === 'tilelayer' && (layerName === defaultStartLayerName || this.isStartLayer(layer))) {
-                const startPosition = this.startUser(layer);
+                const startPosition = this.startUser(layer, this.mapFile.tilewidth, this.mapFile.tileheight);
                 this.startX = startPosition.x + this.mapFile.tilewidth/2;
                 this.startY = startPosition.y + this.mapFile.tileheight/2;
             }
@@ -800,7 +800,7 @@ export class GameScene extends ResizableScene implements CenterListener {
         await gameManager.loadMap(room, this.scene);
     }
 
-    private startUser(layer: ITiledMapLayer): PositionInterface {
+    private startUser(layer: ITiledMapLayer, tilewidth: number, tileheight: number): PositionInterface {
         const tiles = layer.data;
         if (typeof(tiles) === 'string') {
             throw new Error('The content of a JSON map must be filled as a JSON array, not as a string');
@@ -813,7 +813,7 @@ export class GameScene extends ResizableScene implements CenterListener {
             const y = Math.floor(key / layer.width);
             const x = key % layer.width;
 
-            possibleStartPositions.push({x: x*32, y: y*32});
+            possibleStartPositions.push({x: x*tilewidth, y: y*tileheight});
         });
         // Get a value at random amongst allowed values
         if (possibleStartPositions.length === 0) {
