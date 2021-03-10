@@ -101,6 +101,7 @@ export class CustomizeScene extends ResizableScene {
         this.arrowUp = new Image(this, this.game.renderer.width - 30, 60, CustomizeTextures.arrowUp);
         this.add.existing(this.arrowUp);
 
+        // this probably needs changing if different number of layers
         this.createCustomizeLayer(0, 0, 0);
         this.createCustomizeLayer(0, 0, 1);
         this.createCustomizeLayer(0, 0, 2);

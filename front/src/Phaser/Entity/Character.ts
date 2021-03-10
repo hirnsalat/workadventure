@@ -12,6 +12,7 @@ interface AnimationData {
     frameModel: string; //todo use an enum
     frameStart: number;
     frameEnd: number;
+    yoyo: boolean;
 }
 
 export abstract class Character extends Container {
@@ -62,8 +63,8 @@ export abstract class Character extends Container {
         this.scene.physics.world.enableBody(this);
         this.getBody().setImmovable(true);
         this.getBody().setCollideWorldBounds(true);
-        this.setSize(16, 16);
-        this.getBody().setSize(16, 16); //edit the hitbox to better match the character model
+        this.setSize(12, 12);
+        this.getBody().setSize(12, 12); //edit the hitbox to better match the character model
         this.getBody().setOffset(0, 8);
         this.setDepth(-1);
 
@@ -84,7 +85,7 @@ export abstract class Character extends Container {
                     frames: this.scene.anims.generateFrameNumbers(d.frameModel, {start: d.frameStart, end: d.frameEnd}),
                     frameRate: d.frameRate,
                     repeat: d.repeat,
-                    yoyo: true
+                    yoyo: d.yoyo
                 });
             })
             // Needed, otherwise, animations are not handled correctly.
@@ -103,28 +104,32 @@ export abstract class Character extends Container {
             frameStart: 0,
             frameEnd: 2,
             frameRate: 10,
-            repeat: -1
+            repeat: -1,
+            yoyo: true
         }, {
             key: `${name}-${PlayerAnimationNames.WalkLeft}`,
             frameModel: name,
             frameStart: 3,
             frameEnd: 5,
             frameRate: 10,
-            repeat: -1
+            repeat: -1,
+            yoyo: true
         }, {
             key: `${name}-${PlayerAnimationNames.WalkRight}`,
             frameModel: name,
             frameStart: 6,
             frameEnd: 8,
             frameRate: 10,
-            repeat: -1
+            repeat: -1,
+            yoyo: true
         }, {
             key: `${name}-${PlayerAnimationNames.WalkUp}`,
             frameModel: name,
             frameStart: 9,
             frameEnd: 11,
             frameRate: 10,
-            repeat: -1
+            repeat: -1,
+            yoyo: true
         }];
     }
 

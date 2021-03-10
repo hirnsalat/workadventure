@@ -36,7 +36,7 @@ export class Player extends Character implements CurrentGamerInterface {
         let moving = false;
 
         const activeEvents = this.userInputManager.getEventListForGameTick();
-        const speedMultiplier = activeEvents.get(UserInputEvent.SpeedUp) ? 25 : 9;
+        const speedMultiplier = activeEvents.get(UserInputEvent.SpeedUp) ? 9 : 3;
         const moveAmount = speedMultiplier * 20;
         const moveAmountDiagonal = speedMultiplier * 14;
 
