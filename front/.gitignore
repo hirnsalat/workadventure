@@ -5,5 +5,9 @@
 /dist/webpack.config.js
 /dist/webpack.config.js.map
 /dist/src
+/dist/*.js
+/dist/*.js.map
+/dist/index.html
+/dist/index.tmpl.html.tmp
 *.sh
 !templater.sh
