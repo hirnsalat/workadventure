@@ -54,7 +54,7 @@ export abstract class Character extends Container {
         });
         this.add(this.teleportation);*/
 
-        this.playerName = new BitmapText(scene, 0,  - 25, 'main_font', name, 7);
+        this.playerName = new BitmapText(scene, 0,  - 12, 'main_font', name, 7);
         this.playerName.setOrigin(0.5).setCenterAlign().setDepth(99999);
         this.add(this.playerName);
 
