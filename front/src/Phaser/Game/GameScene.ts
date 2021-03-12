@@ -832,6 +832,8 @@ export class GameScene extends ResizableScene implements CenterListener {
         this.cameras.main.setBounds(0,0, this.Map.widthInPixels, this.Map.heightInPixels);
         this.updateCameraOffset();
         this.cameras.main.setZoom(ZOOM_LEVEL);
+        //this is how you set background color
+        this.cameras.main.setBackgroundColor(0x3a3a50);
     }
 
     addLayer(Layer : Phaser.Tilemaps.TilemapLayer){
