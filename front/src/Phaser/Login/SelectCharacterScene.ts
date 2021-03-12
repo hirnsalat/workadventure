@@ -169,7 +169,8 @@ export class SelectCharacterScene extends ResizableScene {
                 key: playerResource.name,
                 frames: this.anims.generateFrameNumbers(playerResource.name, {start: 0, end: 2,}),
                 frameRate: 10,
-                repeat: -1
+                repeat: -1,
+                yoyo: true
             });
             player.setInteractive().on("pointerdown", () => {
                 this.selectedRectangleXPos = col;
