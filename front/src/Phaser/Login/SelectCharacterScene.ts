@@ -17,8 +17,8 @@ enum LoginTextures {
     playButton = "play_button",
     icon = "icon",
     mainFont = "main_font",
-    //customizeButton = "customize_button",
-    //customizeButtonSelected = "customize_button_selected"
+    customizeButton = "customize_button",
+    customizeButtonSelected = "customize_button_selected"
 }
 
 export class SelectCharacterScene extends ResizableScene {
@@ -26,8 +26,8 @@ export class SelectCharacterScene extends ResizableScene {
     private textField!: TextField;
     private pressReturnField!: TextField;
     private logo!: Image;
-    //private customizeButton!: Image;
-    //private customizeButtonSelected!: Image;
+    private customizeButton!: Image;
+    private customizeButtonSelected!: Image;
 
     private selectedRectangle!: Rectangle;
     private selectedRectangleXPos = 0; // Number of the character selected in the rows
@@ -49,8 +49,8 @@ export class SelectCharacterScene extends ResizableScene {
         // Note: arcade.png from the Phaser 3 examples at: https://github.com/photonstorm/phaser3-examples/tree/master/public/assets/fonts/bitmap
         this.load.bitmapFont(LoginTextures.mainFont, 'resources/fonts/arcade.png', 'resources/fonts/arcade.xml');
         this.playerModels = loadAllDefaultModels(this.load);
-        //this.load.image(LoginTextures.customizeButton, 'resources/objects/customize.png');
-        //this.load.image(LoginTextures.customizeButtonSelected, 'resources/objects/customize_selected.png');
+        this.load.image(LoginTextures.customizeButton, 'resources/objects/customize.png');
+        this.load.image(LoginTextures.customizeButtonSelected, 'resources/objects/customize_selected.png');
 
         const localUser = localUserStore.getLocalUser();
         const textures = localUser?.textures;
@@ -108,7 +108,7 @@ export class SelectCharacterScene extends ResizableScene {
                 this.selectedRectangleYPos < Math.ceil(this.playerModels.length / this.nbCharactersPerRow)
                 && (
                     (((this.selectedRectangleYPos + 1) * this.nbCharactersPerRow) + this.selectedRectangleXPos + 1) <= this.playerModels.length // check if player isn't empty
-                    //|| (this.selectedRectangleYPos + 1) === Math.ceil(this.playerModels.length / this.nbCharactersPerRow) // check if is custom rectangle
+                    || (this.selectedRectangleYPos + 1) === Math.ceil(this.playerModels.length / this.nbCharactersPerRow) // check if is custom rectangle
                 )
             ) {
                 this.selectedRectangleYPos++;
@@ -181,18 +181,18 @@ export class SelectCharacterScene extends ResizableScene {
         }
 
         const maxRow = Math.ceil( this.playerModels.length / this.nbCharactersPerRow);
-        //this.customizeButton = new Image(this, this.game.renderer.width / 2, 90 + 32 * maxRow + 6, LoginTextures.customizeButton);
-        //this.customizeButton.setOrigin(0.5, 0.5);
-        //this.add.existing(this.customizeButton);
-        //this.customizeButtonSelected = new Image(this, this.game.renderer.width / 2, 90 + 32 * maxRow + 6, LoginTextures.customizeButtonSelected);
-        //this.customizeButtonSelected.setOrigin(0.5, 0.5);
-        //this.customizeButtonSelected.setVisible(false);
-        //this.add.existing(this.customizeButtonSelected);
+        this.customizeButton = new Image(this, this.game.renderer.width / 2, 90 + 32 * maxRow + 6, LoginTextures.customizeButton);
+        this.customizeButton.setOrigin(0.5, 0.5);
+        this.add.existing(this.customizeButton);
+        this.customizeButtonSelected = new Image(this, this.game.renderer.width / 2, 90 + 32 * maxRow + 6, LoginTextures.customizeButtonSelected);
+        this.customizeButtonSelected.setOrigin(0.5, 0.5);
+        this.customizeButtonSelected.setVisible(false);
+        this.add.existing(this.customizeButtonSelected);
 
-        //this.customizeButton.setInteractive().on("pointerdown", () => {
-        //    this.selectedRectangleYPos = Math.ceil(this.playerModels.length / this.nbCharactersPerRow);
-        //    this.updateSelectedPlayer();
-        //});
+        this.customizeButton.setInteractive().on("pointerdown", () => {
+            this.selectedRectangleYPos = Math.ceil(this.playerModels.length / this.nbCharactersPerRow);
+            this.updateSelectedPlayer();
+        });
 
         this.selectedPlayer = this.players[0];
         this.selectedPlayer.play(this.playerModels[0].name);
@@ -210,17 +210,17 @@ export class SelectCharacterScene extends ResizableScene {
 
     private updateSelectedPlayer(): void {
         this.selectedPlayer?.anims.pause();
-        //// If we selected the customize button
-        //if (this.selectedRectangleYPos === Math.ceil(this.playerModels.length / this.nbCharactersPerRow)) {
-        //    this.selectedPlayer = null;
-        //    this.selectedRectangle.setVisible(false);
-        //    this.customizeButtonSelected.setVisible(true);
-        //    this.customizeButton.setVisible(false);
-        //    localUserStore.setPlayerCharacterIndex(-1);
-        //    return;
-        //}
-        //this.customizeButtonSelected.setVisible(false);
-        //this.customizeButton.setVisible(true);
+        // If we selected the customize button
+        if (this.selectedRectangleYPos === Math.ceil(this.playerModels.length / this.nbCharactersPerRow)) {
+            this.selectedPlayer = null;
+            this.selectedRectangle.setVisible(false);
+            this.customizeButtonSelected.setVisible(true);
+            this.customizeButton.setVisible(false);
+            localUserStore.setPlayerCharacterIndex(-1);
+            return;
+        }
+        this.customizeButtonSelected.setVisible(false);
+        this.customizeButton.setVisible(true);
         const [x, y] = this.getCharacterPosition(this.selectedRectangleXPos, this.selectedRectangleYPos);
         this.selectedRectangle.setVisible(true);
         this.selectedRectangle.setX(x);
@@ -238,8 +238,8 @@ export class SelectCharacterScene extends ResizableScene {
         this.pressReturnField.x = this.game.renderer.width / 2;
         this.logo.x = this.game.renderer.width - 30;
         this.logo.y = this.game.renderer.height - 20;
-        //this.customizeButton.x = this.game.renderer.width / 2;
-        //this.customizeButtonSelected.x = this.game.renderer.width / 2;
+        this.customizeButton.x = this.game.renderer.width / 2;
+        this.customizeButtonSelected.x = this.game.renderer.width / 2;
 
         for (let i = 0; i <this.playerModels.length; i++) {
             const player = this.players[i];
