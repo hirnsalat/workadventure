@@ -76,7 +76,7 @@ export class CustomizeScene extends ResizableScene {
     create() {
         this.textField = new TextField(this, this.game.renderer.width / 2, 30, 'Customize your own Avatar!');
 
-        this.enterField = new TextField(this, this.game.renderer.width / 2, 40, 'you can start the game by pressing SPACE..');
+        this.enterField = new TextField(this, this.game.renderer.width / 2, 40, 'C to cycle hair color and ENTER to start!');
 
         this.logo = new Image(this, this.game.renderer.width - 30, this.game.renderer.height - 20, CustomizeTextures.icon);
         this.add.existing(this.logo);
@@ -130,6 +130,7 @@ export class CustomizeScene extends ResizableScene {
         this.input.keyboard.on('keyup-LEFT', () => this.moveCursorHorizontally(-1));
         this.input.keyboard.on('keyup-DOWN', () => this.moveCursorVertically(1));
         this.input.keyboard.on('keyup-UP', () => this.moveCursorVertically(-1));
+        this.input.keyboard.on('keyup-C', () => this.cycleCursorHorizontally(3, 24));
 
         const customCursorPosition = localUserStore.getCustomCursorPosition();
         if (customCursorPosition) {
@@ -146,6 +147,18 @@ export class CustomizeScene extends ResizableScene {
             this.selectedLayers[this.activeRow] = 0
         } else if(this.selectedLayers[this.activeRow] > this.layers[this.activeRow].length - 1) {
             this.selectedLayers[this.activeRow] = this.layers[this.activeRow].length - 1
+        }
+        this.moveLayers();
+        this.updateSelectedLayer();
+        this.saveInLocalStorage();
+    }
+
+    private cycleCursorHorizontally(row: number, index: number): void {
+        this.selectedLayers[row] += index;
+        if (this.selectedLayers[row] < 0) {
+            this.selectedLayers[row] += this.layers[row].length
+        } else if(this.selectedLayers[row] > this.layers[row].length - 1) {
+            this.selectedLayers[row] -= this.layers[row].length
         }
         this.moveLayers();
         this.updateSelectedLayer();
